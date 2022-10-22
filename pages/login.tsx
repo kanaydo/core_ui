@@ -3,7 +3,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons'
 const { Title, Text } = Typography;
 import {useMutation } from '@tanstack/react-query'
 import { NextPage } from "next"
-import { submitLogin } from '../fetchers/login';
+import { submitLogin } from '../requests/login';
 import { useRouter } from 'next/router';
 
 const LoginPage: NextPage = () => {

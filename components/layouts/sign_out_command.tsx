@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useMutation } from '@tanstack/react-query';
-import { signOutUser } from "../../fetchers/login";
+import { signOutUser } from "../../requests/login";
 
 export default function SignOutButton() {
   const mutation = useMutation( cmd => {

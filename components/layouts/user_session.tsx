@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { Spin } from 'antd'
-import { getSessionUser } from "../../fetchers/login";
+import { getSessionUser } from "../../requests/login";
 
 export default function UserSession() {
   const { isLoading, isError, data, error } = useQuery(['session_user'], getSessionUser, { refetchInterval: 120000 });
