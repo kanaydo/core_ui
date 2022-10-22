@@ -6,7 +6,7 @@ import type { MenuProps } from 'antd';
 import Link from "next/link";
 import UserSession from "./user_session";
 
-import SignOutButton from "./sign_out_command";
+import SignOutButton from "./sign_out_button";
 const { Header, Content, Sider, Footer } = Layout;
 
 

@@ -1,7 +1,7 @@
 import { Button, Form, Input, Row, Col, Typography, Space, notification } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 const { Title, Text } = Typography;
-import {useMutation } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import { NextPage } from "next"
 import { submitLogin } from '../requests/sessions';
 import { useRouter } from 'next/router';
