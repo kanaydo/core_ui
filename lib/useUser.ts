@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { getSessionUser } from '../requests/login'
+import { getSessionUser } from '../requests/sessions'
 
 export default function useUser({
   redirectTo = '',

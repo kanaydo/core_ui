@@ -3,7 +3,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons'
 const { Title, Text } = Typography;
 import {useMutation } from '@tanstack/react-query'
 import { NextPage } from "next"
-import { submitLogin } from '../requests/login';
+import { submitLogin } from '../requests/sessions';
 import { useRouter } from 'next/router';
 
 const LoginPage: NextPage = () => {
@@ -13,13 +13,13 @@ const LoginPage: NextPage = () => {
     return submitLogin(values);
   }, {
     onSuccess(data, _, __) {
-      const { user } = data;
-      console.log(user);
-      // notification['success']({
-      //   message: 'Login Success',
-      //   description: `welcome ${user.login}`
-      // });
-      // router.push('/');
+      const { login } = data;
+      console.log(login);
+      notification['success']({
+        message: 'Login Success',
+        description: `welcome ${login}`
+      });
+      router.push('/');
     },
     onError(error, _, __) {
       notification['error']({
