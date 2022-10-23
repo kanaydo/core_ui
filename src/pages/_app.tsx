@@ -1,4 +1,4 @@
-import '../styles/globals.css';
+import '../../styles/globals.css';
 import 'antd/dist/antd.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import React, { ReactElement, ReactNode } from 'react';

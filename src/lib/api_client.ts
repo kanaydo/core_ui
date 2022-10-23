@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useQuery } from '@tanstack/react-query'
-import { getSessionUser } from '../requests/sessions';
+import { getSessionUser } from '../api_bridge/sessions';
 
 const axiosClient = () => {
   const instance = axios.create({

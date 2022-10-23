@@ -1,6 +1,6 @@
 import { notification } from 'antd'
 import { useMutation } from '@tanstack/react-query';
-import { signOutUser } from "../../requests/sessions";
+import { signOutUser } from "../../api_bridge/sessions";
 import { useRouter } from "next/router";
 import { signOut } from 'next-auth/react';
 
