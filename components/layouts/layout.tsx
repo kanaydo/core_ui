@@ -4,6 +4,7 @@ import { LaptopOutlined, NotificationOutlined, UserOutlined, MailOutlined, Profi
 import React, { useState } from "react";
 import type { MenuProps } from 'antd';
 import Link from "next/link";
+import { blue } from '@ant-design/colors';
 import UserSession from "./user_session";
 
 import SignOutButton from "./sign_out_button";
@@ -20,8 +21,8 @@ const items: MenuProps['items'] = [
     label: (
       <strong>
         <Link href="/">
-        Core UI
-      </Link>
+          Core UI
+        </Link>
       </strong>
     ),
     key: 'core',
@@ -36,7 +37,11 @@ const items: MenuProps['items'] = [
         label: 'Preferences',
         children: [
           {
-            label: 'Administrator',
+            label: (
+              <Link href="/administrators">
+                {'Administrator'}
+              </Link>
+            ),
             key: 'master_data:1',
           },
           {
@@ -98,7 +103,7 @@ const items: MenuProps['items'] = [
   },
   {
     label: (
-      <UserSession/>
+      <UserSession />
     ),
     key: 'session',
     style: { marginLeft: 'auto' },
@@ -134,7 +139,7 @@ const items: MenuProps['items'] = [
       },
       {
         label: (
-          <SignOutButton/>
+          <SignOutButton />
         ),
         key: 'sign_out',
       },
@@ -146,7 +151,7 @@ export default function CoreLayout({ children, title }: CoreLayoutProps) {
   const [current, setCurrent] = useState('core');
 
   const onClick: MenuProps['onClick'] = e => {
-    console.log('click ', e);
+    // console.log('click ', e);
     setCurrent(e.key);
   };
 
@@ -161,9 +166,9 @@ export default function CoreLayout({ children, title }: CoreLayoutProps) {
         <meta name="keywords" content="Keywords" />
         {/* <link rel="manifest" href="/manifest.json" /> */}
       </Head>
-      <Layout>
+      <Layout style={{backgroundColor: 'white'}}>
         <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />
-        <Content style={{ padding: '8px 16px' }}>
+        <Content style={{ padding: '8px 16px'}}>
           {children}
         </Content>
         <Footer style={{ textAlign: 'center' }}>Core UI ©2022 Created by RSD</Footer>

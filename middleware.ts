@@ -1,21 +1,16 @@
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
-import { getIronSession } from "iron-session/edge";
-import { sessionOptions } from './lib/session';
+import { withAuth } from "next-auth/middleware"
 
-export async function middleware(request: NextRequest) {
-  const response = NextResponse.next();
-  const session = await getIronSession(request, response, sessionOptions);
-  const reqLoginPage = request.url.includes('/login');
-  if (reqLoginPage && Object.keys(session).length != 0) {
-    console.log('session found')
-    return NextResponse.redirect(new URL('/', request.url));
+export default withAuth(
+  function middleware(req) {
+    //console.log(req.nextauth.token?.accessToken)
+  },
+  {
+    pages: {
+      signIn: '/login'
+    }
   }
-  if (!reqLoginPage && Object.keys(session).length === 0) {
-    return NextResponse.redirect(new URL('/login', request.url));
-  }
-  return response;
-}
+)
+
 
 export const config = {
   matcher: [

@@ -3,23 +3,28 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons'
 const { Title, Text } = Typography;
 import { useMutation } from '@tanstack/react-query'
 import { NextPage } from "next"
-import { submitLogin } from '../requests/sessions';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
+import { signIn } from "next-auth/react";
 
 const LoginPage: NextPage = () => {
   const router = useRouter()
 
-  const mutation = useMutation(values => {
-    return submitLogin(values);
+  const loginMutation = useMutation((params: any) => {
+    return signIn("credentials", { redirect: false, username: params.username, password: params.password });
   }, {
     onSuccess(data, _, __) {
-      const { login } = data;
-      console.log(login);
-      notification['success']({
-        message: 'Login Success',
-        description: `welcome ${login}`
-      });
-      router.push('/');
+      if (data?.ok) {
+        notification['success']({
+          message: 'Login Success'
+        });
+        router.push('/');
+      } else {
+        notification['error']({
+          message: 'Login Error',
+          description: `Wrong username or password, please try again`
+        });  
+      }
     },
     onError(error, _, __) {
       notification['error']({
@@ -38,10 +43,10 @@ const LoginPage: NextPage = () => {
           <Text type="secondary">please login to continue</Text>
           </div>
           <Form
-            disabled={mutation.isLoading}
+            disabled={loginMutation.isLoading}
             name="login_form"
             initialValues={{ remember: true }}
-            onFinish={(values) => mutation.mutate(values)}
+            onFinish={loginMutation.mutate}
             layout='vertical'
             autoComplete="off">
             <Form.Item
@@ -57,7 +62,7 @@ const LoginPage: NextPage = () => {
             </Form.Item>
 
             <Form.Item>
-              <Button type="primary" htmlType="submit" size='large' loading={mutation.isLoading} block>
+              <Button type="primary" htmlType="submit" size='large' loading={loginMutation.isLoading} block>
                 Submit
               </Button>
             </Form.Item>

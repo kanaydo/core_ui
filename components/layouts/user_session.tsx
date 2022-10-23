@@ -1,21 +1,12 @@
-import { useQuery } from '@tanstack/react-query'
-import { Spin } from 'antd'
-import { getSessionUser } from "../../requests/sessions";
+import { useSession } from 'next-auth/react';
 
 export default function UserSession() {
-  const { isLoading, isError, data, error } = useQuery(['session_user'], getSessionUser, { refetchInterval: 120000 });
-  if (isLoading) {
-    return <Spin />
-  }
-  if (isError) {
-    return <span>{`Error: ${error}`}</span>
+  const { data: session, status } = useSession();
+  // console.log(session);
+
+  if (status === "authenticated") {
+    return <strong>{session?.user?.email}</strong>
   }
 
-  if(data === undefined) {
-    return <Spin />
-  }
-
-  return (
-    <strong>{data.login}</strong>
-  )
+  return <a href="/login">Sign in</a>
 }
