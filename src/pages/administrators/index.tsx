@@ -1,19 +1,20 @@
-import Table, { ColumnsType, TablePaginationConfig } from "antd/lib/table";
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
-import { ReactElement, useEffect, useRef, useState } from "react"
-import CoreLayout from "../../components/layouts/layout"
-import { AdministratorEntity } from "../../interfaces/entity/entity_interfaces";
-import { TableParams } from "../../interfaces/utils_interface";
-import { NextPageWithLayout } from "../_app"
+import { useQuery } from '@tanstack/react-query';
+import { Button, DatePicker, Input, InputRef, Space, Tag } from 'antd';
+import { ColumnType } from 'antd/es/table';
+import Table, { ColumnsType, TablePaginationConfig } from 'antd/lib/table';
+import { FilterConfirmProps, FilterValue, SorterResult } from 'antd/lib/table/interface';
 import qs from 'qs';
-import { FilterConfirmProps, FilterValue, SorterResult } from "antd/lib/table/interface";
-import axiosClient from "../../lib/api_client";
-import { Button, Input, InputRef, Space, Tag, DatePicker } from "antd";
+import { ReactElement, useRef, useState } from 'react';
+import Highlighter from 'react-highlight-words';
+
+import { administratorIndex } from '../../api_bridge/administrator_api';
+import CoreLayout from '../../components/layouts/layout';
+import { AdministratorEntity } from '../../interfaces/entity/entity_interfaces';
+import { TableParams } from '../../interfaces/utils_interface';
+import { NextPageWithLayout } from '../_app';
+
 const { RangePicker } = DatePicker;
-import { useQuery } from "@tanstack/react-query";
-import { ColumnType } from "antd/es/table";
-import Highlighter from "react-highlight-words";
-import { administratorIndex } from "../../api_bridge/administrator_api";
 
 const getAdministratorParams = (params: TableParams) => ({
   results: params.pagination?.pageSize,
@@ -90,6 +91,7 @@ const AdministratorIndex: NextPageWithLayout = () => {
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
       <div style={{ padding: 8 }}>
         <RangePicker
+          size="small"
           // value={selectedKeys}
           style={{ marginBottom: 8 }}
           onChange={ (_, s) => {
@@ -113,7 +115,7 @@ const AdministratorIndex: NextPageWithLayout = () => {
           >
             Reset
           </Button>
-          <Button
+          {/* <Button
             type="link"
             size="small"
             onClick={() => {
@@ -123,7 +125,7 @@ const AdministratorIndex: NextPageWithLayout = () => {
             }}
           >
             Filter
-          </Button>
+          </Button> */}
         </Space>
       </div>
     ),
@@ -140,11 +142,12 @@ const AdministratorIndex: NextPageWithLayout = () => {
 
   const getColumnSearchProps = (dataIndex: DataIndex, navigate?: string): ColumnType<AdministratorEntity> => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
-      <div style={{ padding: 8 }}>
+      <div style={{ padding: 16 }}>
         <Input
-          ref={searchInput}
+          // ref={searchInput}
           placeholder={`Search ${dataIndex}`}
           value={selectedKeys[0]}
+          size='small'
           onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
           // onPressEnter={(e) => {
           //   handleSearch(selectedKeys as string[], confirm, dataIndex);
@@ -167,7 +170,7 @@ const AdministratorIndex: NextPageWithLayout = () => {
           >
             Reset
           </Button>
-          <Button
+          {/* <Button
             type="link"
             size="small"
             onClick={() => {
@@ -177,7 +180,7 @@ const AdministratorIndex: NextPageWithLayout = () => {
             }}
           >
             Filter
-          </Button>
+          </Button> */}
         </Space>
       </div>
     ),
@@ -275,7 +278,6 @@ const AdministratorIndex: NextPageWithLayout = () => {
         onChange={(pagination, filters, sorter) => handleTableChange(pagination, filters, sorter)}
       />
     </>
-
   )
 }
 
