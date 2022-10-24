@@ -1,4 +1,5 @@
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { NextPageWithLayout } from '@coretypes/layout_types';
 import { useQuery } from '@tanstack/react-query';
 import { Button, DatePicker, Input, InputRef, Space, Tag } from 'antd';
 import { ColumnType } from 'antd/es/table';
@@ -8,11 +9,10 @@ import qs from 'qs';
 import { ReactElement, useRef, useState } from 'react';
 import Highlighter from 'react-highlight-words';
 
-import { administratorIndex } from '../../api_bridge/administrator_api';
-import CoreLayout from '../../components/layouts/layout';
-import { AdministratorEntity } from '../../interfaces/entity/entity_interfaces';
-import { TableParams } from '../../interfaces/utils_interface';
-import { NextPageWithLayout } from '../_app';
+import { administratorIndex } from '@requests/administrator_api';
+import CoreLayout from '@components/layouts/layout';
+import { AdministratorEntity } from '@coretypes/entities';
+import { TableParams } from '@coretypes/utils_interface';
 
 const { RangePicker } = DatePicker;
 

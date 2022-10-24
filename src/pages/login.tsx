@@ -1,11 +1,10 @@
-import { Button, Form, Input, Row, Col, Typography, Space, notification } from 'antd'
-import { UserOutlined, LockOutlined } from '@ant-design/icons'
-const { Title, Text } = Typography;
-import { useMutation } from '@tanstack/react-query'
-import { NextPage } from "next"
-import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { useMutation } from '@tanstack/react-query';
+import { Button, Col, Form, Input, notification, Row, Space, Typography } from 'antd';
+import { NextPage } from "next";
 import { signIn } from "next-auth/react";
+import { useRouter } from 'next/router';
+const { Title, Text } = Typography;
 
 const LoginPage: NextPage = () => {
   const router = useRouter()

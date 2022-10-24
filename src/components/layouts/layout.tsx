@@ -1,17 +1,16 @@
+import { ProfileOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
+import { Card, Layout, Menu } from 'antd';
+import { getCookie, setCookie } from 'cookies-next';
 import Head from "next/head";
-import { Breadcrumb, Card, Layout, Menu } from 'antd';
-import { LaptopOutlined, NotificationOutlined, UserOutlined, MailOutlined, ProfileOutlined, SettingOutlined } from '@ant-design/icons';
-import { setCookie, getCookie } from 'cookies-next';
 
-import React, { useEffect, useState } from "react";
 import type { MenuProps } from 'antd';
 import Link from "next/link";
-import { blue } from '@ant-design/colors';
+import React, { useEffect, useState } from "react";
 import UserSession from "./user_session";
 
-import SignOutButton from "./sign_out_button";
 import { useRouter } from "next/router";
 import Breadcrumbs from "nextjs-antd-breadcrumbs";
+import SignOutButton from "./sign_out_button";
 const { Header, Content, Sider, Footer } = Layout;
 
 

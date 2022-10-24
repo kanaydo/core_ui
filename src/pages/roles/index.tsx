@@ -1,4 +1,5 @@
-import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { PlusOutlined, SearchOutlined, EditOutlined } from '@ant-design/icons';
+import { NextPageWithLayout } from '@coretypes/layout_types';
 import { useQuery } from '@tanstack/react-query';
 import { Button, Input, Space, Tag, DatePicker } from "antd";
 import Table, { ColumnsType, TablePaginationConfig } from "antd/lib/table";
@@ -6,11 +7,11 @@ import { ColumnType, FilterConfirmProps, FilterValue, SorterResult } from "antd/
 import qs from 'qs';
 import { ReactElement, useState } from "react";
 import Highlighter from 'react-highlight-words';
-import { pagingRoleIndex } from '../../api_bridge/role_api';
-import CoreLayout from "../../components/layouts/layout";
-import { RoleEntity } from "../../interfaces/entity/entity_interfaces";
-import { TableParams } from "../../interfaces/utils_interface";
-import { NextPageWithLayout } from "../_app";
+import { pagingRoleIndex } from '@requests/role_api';
+import CoreLayout from "@components/layouts/layout";
+import { RoleEntity } from "@coretypes/entities";
+import { TableParams } from "@coretypes/utils_interface";
+
 const { RangePicker } = DatePicker;
 
 
@@ -90,11 +91,11 @@ const RoleIndex: NextPageWithLayout = () => {
           size="small"
           // value={selectedKeys}
           style={{ marginBottom: 8 }}
-          onChange={ (_, s) => {
+          onChange={(_, s) => {
             setSelectedKeys(s ? s : []);
           }}
         />
-        <br/>
+        <br />
         <Space>
           <Button
             type="primary"
@@ -170,7 +171,16 @@ const RoleIndex: NextPageWithLayout = () => {
         )
       }
       return (
-        <strong>{value}</strong>
+        <div>
+          <strong>{value}</strong>
+          <br />
+          <Button
+            shape="circle"
+            type='link'
+            size='small'
+            icon={<EditOutlined />}
+          />
+        </div>
       )
     },
   });
@@ -179,7 +189,6 @@ const RoleIndex: NextPageWithLayout = () => {
     {
       title: '#',
       dataIndex: 'id',
-      sorter: true,
       showSorterTooltip: false,
       width: '5%',
       render: (_, __, index) => {
@@ -226,7 +235,7 @@ const RoleIndex: NextPageWithLayout = () => {
       ],
     }
   ];
-  
+
   return (
     <>
       <Button icon={<PlusOutlined />} href='roles/new'>

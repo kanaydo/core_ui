@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { axiosInstance } from "../lib/axios_instance";
+import { axiosInstance } from "@corelibs/axios_instance";
 
 export const submitLogin = async (params: any) => {
   try{
