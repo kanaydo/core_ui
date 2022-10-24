@@ -10,8 +10,10 @@ import { FilterConfirmProps, FilterValue, SorterResult } from "antd/lib/table/in
 import axiosClient from "../../lib/api_client";
 import { Button, Input, InputRef, Space, Tag, DatePicker } from "antd";
 const { RangePicker } = DatePicker;
+import { useQuery } from "@tanstack/react-query";
 import { ColumnType } from "antd/es/table";
 import Highlighter from "react-highlight-words";
+import { administratorIndex } from "../../api_bridge/administrator_api";
 
 const getAdministratorParams = (params: TableParams) => ({
   results: params.pagination?.pageSize,
@@ -21,12 +23,11 @@ const getAdministratorParams = (params: TableParams) => ({
 
 const AdministratorIndex: NextPageWithLayout = () => {
   const [data, setData] = useState();
-  const [loading, setLoading] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const searchInput = useRef<InputRef>(null);
-  const pickerInput = useRef<InputRef>(null);
   type DataIndex = keyof AdministratorEntity;
+
   const [tableParams, setTableParams] = useState<TableParams>({
     pagination: {
       current: 1,
@@ -36,32 +37,29 @@ const AdministratorIndex: NextPageWithLayout = () => {
     },
   });
 
-  const fetchData = async () => {
-    setLoading(true);
-    const response = await axiosClient().get(`http://localhost:3000/administrators?${qs.stringify(getAdministratorParams(tableParams))}`);
-    const { items, meta } = response.data;
-    setData(items);
-    setLoading(false);
-    setTableParams({
-      ...tableParams,
-      pagination: {
-        ...tableParams.pagination,
-        total: meta.totalItems
-      }
-    });
-  };
-
-  useEffect(() => {
-    fetchData();
-    // console.log('api call', tableParams)
-  }, [JSON.stringify(tableParams)]);
+  const {
+    isLoading
+  } = useQuery(['paging_administrators', tableParams], () => administratorIndex(qs.stringify(getAdministratorParams(tableParams))), {
+    onSuccess: (_data) => {
+      setData(_data.items);
+      setTableParams({
+        ...tableParams,
+        pagination: {
+          ...tableParams.pagination,
+          total: _data.meta.totalItems
+        }
+      });
+    },
+    onError: (_err) => {
+      console.log(_err);
+    },
+  })
 
   const handleTableChange = (
     pagination: TablePaginationConfig,
     filters: Record<string, FilterValue | null>,
     sorter: SorterResult<AdministratorEntity> | SorterResult<AdministratorEntity>[],
   ) => {
-    console.log('table updated', filters);
     setTableParams({
       pagination,
       filters,
@@ -272,7 +270,7 @@ const AdministratorIndex: NextPageWithLayout = () => {
         rowKey={(record) => record.id}
         dataSource={data}
         pagination={tableParams.pagination}
-        loading={loading}
+        loading={isLoading}
         size='small'
         onChange={(pagination, filters, sorter) => handleTableChange(pagination, filters, sorter)}
       />
