@@ -1,12 +1,12 @@
 export interface AdministratorEntity {
-  id: number;
+  id: string;
   username: string;
   createdAt: string;
   roleList: string[];
 }
 
 export interface RoleEntity {
-  id: number;
+  id: string;
 	name: string;
 	createdAt: string
 	status: string

@@ -11,6 +11,7 @@ import { pagingRoleIndex } from '@requests/role_api';
 import CoreLayout from "@components/layouts/layout";
 import { RoleEntity } from "@coretypes/entities";
 import { TableParams } from "@coretypes/utils_interface";
+import { useRouter } from 'next/router';
 
 const { RangePicker } = DatePicker;
 
@@ -23,6 +24,7 @@ const RoleIndex: NextPageWithLayout = () => {
     ...params,
   });
 
+  const router = useRouter();
   const [data, setData] = useState();
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
@@ -173,13 +175,6 @@ const RoleIndex: NextPageWithLayout = () => {
       return (
         <div>
           <strong>{value}</strong>
-          <br />
-          <Button
-            shape="circle"
-            type='link'
-            size='small'
-            icon={<EditOutlined />}
-          />
         </div>
       )
     },
@@ -190,10 +185,24 @@ const RoleIndex: NextPageWithLayout = () => {
       title: '#',
       dataIndex: 'id',
       showSorterTooltip: false,
-      width: '5%',
+      width: '2%',
       render: (_, __, index) => {
         return (
           <small>{index + 1}</small>
+        );
+      },
+    },
+    {
+      title: 'Actions',
+      dataIndex: 'id',
+      align: 'center',
+      showSorterTooltip: false,
+      width: '5%',
+      render: (_, record, __) => {
+        return (
+          <a href={`roles/${record.id}/edit`}>
+            <EditOutlined />
+          </a>
         );
       },
     },
