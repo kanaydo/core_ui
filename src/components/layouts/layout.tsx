@@ -185,7 +185,7 @@ export default function CoreLayout({ children, title }: CoreLayoutProps) {
         <meta name="keywords" content="Keywords" />
       </Head>
       <Layout style={{backgroundColor: 'white'}}>
-        <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />
+        <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} triggerSubMenuAction='click'/>
         <Breadcrumbs rootLabel="Home" omitRootLabel={false} style={{padding: '8px 16px'}}/>
         <Content style={{ padding: '0px 16px'}}>
           <Card>{ children }</Card>
