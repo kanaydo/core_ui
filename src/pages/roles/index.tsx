@@ -159,24 +159,18 @@ const RoleIndex: NextPageWithLayout = () => {
     render: (value, record, __) => {
       if (searchedColumn === dataIndex) {
         return (
-          <a href={`roles/${record.id}`}>
-            <strong>
+          <strong>
             <Highlighter
               highlightStyle={{ padding: 0, color: '#014477' }}
               searchWords={[searchText]}
               autoEscape
               textToHighlight={value ? value.toString() : ''}
             />
-            </strong>
-            
-          </a>
-
+          </strong>
         )
       }
       return (
-        <a href={`administrators/${record.id}`}>
-          <strong>{value}</strong>
-        </a>
+        <strong>{value}</strong>
       )
     },
   });
@@ -199,6 +193,10 @@ const RoleIndex: NextPageWithLayout = () => {
       dataIndex: 'name',
       sorter: true,
       ...getColumnSearchProps('name')
+    },
+    {
+      title: 'Description',
+      dataIndex: 'description',
     },
     {
       title: 'Created At',
@@ -231,7 +229,7 @@ const RoleIndex: NextPageWithLayout = () => {
   
   return (
     <>
-      <Button icon={<PlusOutlined />} href='administrators/new'>
+      <Button icon={<PlusOutlined />} href='roles/new'>
         <small style={{ marginLeft: '8px' }}>
           <strong>Create</strong>
         </small>

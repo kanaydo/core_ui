@@ -188,7 +188,7 @@ export default function CoreLayout({ children, title }: CoreLayoutProps) {
         <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} triggerSubMenuAction='click'/>
         <Breadcrumbs rootLabel="Home" omitRootLabel={false} style={{padding: '8px 16px'}}/>
         <Content style={{ padding: '0px 16px'}}>
-          <Card>{ children }</Card>
+          <Card size="small">{ children }</Card>
         </Content>
         <Footer style={{ textAlign: 'center' }}>Core UI ©2022 Created by RSD</Footer>
       </Layout>
