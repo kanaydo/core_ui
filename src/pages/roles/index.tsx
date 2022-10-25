@@ -5,7 +5,7 @@ import { NextPageWithLayout } from '@coretypes/layout_types';
 import { TableParams } from "@coretypes/utils_interface";
 import { deleteRole, pagingRoleIndex } from '@requests/role_api';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { Button, DatePicker, Input, notification, Popconfirm, Space, Tag } from "antd";
+import { Button, DatePicker, Input, notification, Popconfirm, Space, Tag, Tooltip } from "antd";
 import Table, { ColumnsType, TablePaginationConfig } from "antd/lib/table";
 import { ColumnType, FilterConfirmProps, FilterValue, SorterResult } from "antd/lib/table/interface";
 import qs from 'qs';
@@ -53,7 +53,7 @@ const RoleIndex: NextPageWithLayout = () => {
     },
   })
 
-  const destroyRoleMutation = useMutation((roleId : any) => deleteRole(roleId), {
+  const destroyRoleMutation = useMutation((roleId: any) => deleteRole(roleId), {
     onSuccess(_, variables, ___) {
       notification['success']({
         message: `successfully remove role`
@@ -215,19 +215,23 @@ const RoleIndex: NextPageWithLayout = () => {
       render: (_, record, __) => {
         return (
           <>
-            <Button type="link" size='small' href={`roles/${record.id}/edit`}>
-              <EditOutlined />
-            </Button>
-            <Popconfirm
-              title={`Are you sure to delete ${record.name}?`}
-              placement="right"
-              onConfirm={() => destroyRoleMutation.mutate(record.id)}
-              // onCancel={cancel}
-              okText="Yes"
-              cancelText="No"
-            >
-              <DeleteOutlined style={{ color: 'red' }}/>
-            </Popconfirm>
+            <Tooltip title="edit role">
+              <Button type="link" size='small' href={`roles/${record.id}/edit`}>
+                <EditOutlined />
+              </Button>
+            </Tooltip>
+            <Tooltip title="remove role">
+              <Popconfirm
+                title={`Are you sure to delete ${record.name}?`}
+                placement="right"
+                onConfirm={() => destroyRoleMutation.mutate(record.id)}
+                // onCancel={cancel}
+                okText="Yes"
+                cancelText="No"
+              >
+                <DeleteOutlined style={{ color: 'red' }} />
+              </Popconfirm>
+            </Tooltip>
           </>
         );
       },

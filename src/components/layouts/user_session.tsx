@@ -1,4 +1,5 @@
 import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 
 export default function UserSession() {
   const { data: session, status } = useSession();
@@ -7,5 +8,5 @@ export default function UserSession() {
     return <strong>{session?.user?.email}</strong>
   }
 
-  return <a href="/login">Sign in</a>
+  return <Link href="/login">Sign in</Link>
 }
