@@ -11,7 +11,9 @@ interface AdministratorFormProps {
 
 export default function AdministratorForm({ administrator }: AdministratorFormProps) {
   const router = useRouter();
+
   const newAdministrator = useQuery(['prepare_administrator_new'], () => administratorNew());
+
   const createAdministratorMutation = useMutation(params => administratorCreate(params), {
     onSuccess(data, _, __) {
       notification['success']({
@@ -26,6 +28,7 @@ export default function AdministratorForm({ administrator }: AdministratorFormPr
       });
     },
   });
+
   const updateAdministratorMutation = useMutation(params => administratorUpdate(administrator!.id, params), {
     onSuccess(data, _, __) {
       notification['success']({
@@ -53,7 +56,6 @@ export default function AdministratorForm({ administrator }: AdministratorFormPr
   if (newAdministrator.isError) {
     rolePicker = <b>Error Cokk</b>
   }
-
 
 
   if (newAdministrator.data) {

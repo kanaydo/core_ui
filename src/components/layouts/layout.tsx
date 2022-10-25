@@ -98,20 +98,20 @@ const items: MenuProps['items'] = [
           },
         ],
       },
-      {
-        type: 'group',
-        label: 'Item 2',
-        children: [
-          {
-            label: 'Option 3',
-            key: 'setting:3',
-          },
-          {
-            label: 'Option 4',
-            key: 'setting:4',
-          },
-        ],
-      },
+      // {
+      //   type: 'group',
+      //   label: 'Item 2',
+      //   children: [
+      //     {
+      //       label: 'Option 3',
+      //       key: 'setting:3',
+      //     },
+      //     {
+      //       label: 'Option 4',
+      //       key: 'setting:4',
+      //     },
+      //   ],
+      // },
     ],
   },
   {
@@ -122,34 +122,34 @@ const items: MenuProps['items'] = [
     style: { marginLeft: 'auto' },
     icon: <UserOutlined />,
     children: [
-      {
-        type: 'group',
-        label: 'Preferences',
-        children: [
-          {
-            label: 'Administrator',
-            key: 'session:1',
-          },
-          {
-            label: 'Role',
-            key: 'session:2',
-          },
-        ],
-      },
-      {
-        type: 'group',
-        label: 'Item 2',
-        children: [
-          {
-            label: 'Option 3',
-            key: 'session:3',
-          },
-          {
-            label: 'Option 4',
-            key: 'session:4',
-          },
-        ],
-      },
+      // {
+      //   type: 'group',
+      //   label: 'Preferences',
+      //   children: [
+      //     {
+      //       label: 'Administrator',
+      //       key: 'session:1',
+      //     },
+      //     {
+      //       label: 'Role',
+      //       key: 'session:2',
+      //     },
+      //   ],
+      // },
+      // {
+      //   type: 'group',
+      //   label: 'Item 2',
+      //   children: [
+      //     {
+      //       label: 'Option 3',
+      //       key: 'session:3',
+      //     },
+      //     {
+      //       label: 'Option 4',
+      //       key: 'session:4',
+      //     },
+      //   ],
+      // },
       {
         label: (
           <SignOutButton />
