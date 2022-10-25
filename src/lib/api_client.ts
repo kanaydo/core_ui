@@ -3,7 +3,7 @@ import { getSession } from 'next-auth/react';
 
 const axiosClient = () => {
   const instance = axios.create({
-    // baseURL: process.env.NEXT_PUBLIC_SALESSOUP_API_PATH,
+    baseURL: process.env.NEXT_PUBLIC_CORE_API_PATH,
     timeout: 60000
   });
 

@@ -13,7 +13,7 @@ export default NextAuth({
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials, req) {
-        const response = await axios.post('http://localhost:3000/auth/login', credentials);
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_CORE_API_PATH}/auth`, credentials);
         
         const { administrator, access_token } = response.data;
         if (administrator != null) {
