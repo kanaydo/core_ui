@@ -12,7 +12,7 @@ export default NextAuth({
         username: { label: "Username", type: "text" },
         password: { label: "Password", type: "password" }
       },
-      async authorize(credentials, req) {
+      async authorize(credentials, _) {
         const response = await axios.post(`${process.env.NEXT_PUBLIC_CORE_API_PATH}/auth`, credentials);
         
         const { administrator, access_token } = response.data;
@@ -32,13 +32,13 @@ export default NextAuth({
     colorScheme: "light",
   },
   callbacks: {
-    async session({ session, user, token }) {
+    async session({ session, token }) {
       if (token.accessToken) {
         session.user.accessToken = token.accessToken;
       }
       return session;
     },
-    async jwt({ token, user, account, profile, isNewUser }) {
+    async jwt({ token, user }) {
       if (user) {
         token.accessToken = user.accessToken;
       }

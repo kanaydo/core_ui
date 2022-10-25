@@ -1,4 +1,4 @@
-import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { PlusOutlined, SearchOutlined, EditOutlined } from '@ant-design/icons';
 import { NextPageWithLayout } from '@coretypes/layout_types';
 import { useQuery } from '@tanstack/react-query';
 import { Button, DatePicker, Input, InputRef, Space, Tag } from 'antd';
@@ -216,12 +216,25 @@ const AdministratorIndex: NextPageWithLayout = () => {
     {
       title: '#',
       dataIndex: 'id',
-      sorter: true,
       showSorterTooltip: false,
-      width: '5%',
+      width: '2%',
       render: (_, __, index) => {
         return (
           <small>{index + 1}</small>
+        );
+      },
+    },
+    {
+      title: 'Actions',
+      dataIndex: 'id',
+      align: 'center',
+      showSorterTooltip: false,
+      width: '5%',
+      render: (_, record, __) => {
+        return (
+          <a href={`administrators/${record.id}/edit`}>
+            <EditOutlined />
+          </a>
         );
       },
     },

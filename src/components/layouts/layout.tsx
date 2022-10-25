@@ -1,5 +1,5 @@
 import { ProfileOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
-import { Card, Layout, Menu } from 'antd';
+import { Card, Layout, Menu, Typography } from 'antd';
 import { getCookie, setCookie } from 'cookies-next';
 import Head from "next/head";
 
@@ -12,6 +12,8 @@ import { useRouter } from "next/router";
 import Breadcrumbs from "nextjs-antd-breadcrumbs";
 import SignOutButton from "./sign_out_button";
 const { Header, Content, Sider, Footer } = Layout;
+const { Text } = Typography;
+
 
 
 type CoreLayoutProps = {
@@ -189,7 +191,9 @@ export default function CoreLayout({ children, title }: CoreLayoutProps) {
         <Content style={{ padding: '0px 16px'}}>
           <Card size="small">{ children }</Card>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>Core UI ©2022 Created by RSD</Footer>
+        <Footer style={{ textAlign: 'center' }}>
+          <Text type="secondary"><small>Core UI ©2022 Created by RSD</small></Text>
+        </Footer>
       </Layout>
     </>
   )
