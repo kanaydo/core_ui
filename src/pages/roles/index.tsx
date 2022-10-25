@@ -1,13 +1,14 @@
-import { EditOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { EditOutlined, PlusOutlined, SearchOutlined, DeleteOutlined } from '@ant-design/icons';
 import CoreLayout from "@components/layouts/layout";
 import { RoleEntity } from "@coretypes/entities";
 import { NextPageWithLayout } from '@coretypes/layout_types';
 import { TableParams } from "@coretypes/utils_interface";
-import { pagingRoleIndex } from '@requests/role_api';
-import { useQuery } from '@tanstack/react-query';
-import { Button, DatePicker, Input, Space, Tag } from "antd";
+import { deleteRole, pagingRoleIndex } from '@requests/role_api';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { Button, DatePicker, Input, notification, Popconfirm, Space, Tag } from "antd";
 import Table, { ColumnsType, TablePaginationConfig } from "antd/lib/table";
 import { ColumnType, FilterConfirmProps, FilterValue, SorterResult } from "antd/lib/table/interface";
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import qs from 'qs';
 import { ReactElement, useState } from "react";
@@ -24,8 +25,7 @@ const RoleIndex: NextPageWithLayout = () => {
     ...params,
   });
 
-  const router = useRouter();
-  const [data, setData] = useState();
+  const [data, setData] = useState<RoleEntity[]>([]);
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const [tableParams, setTableParams] = useState<TableParams>({
@@ -54,6 +54,22 @@ const RoleIndex: NextPageWithLayout = () => {
       console.log(_err);
     },
   })
+
+  const destroyRoleMutation = useMutation((roleId : any) => deleteRole(roleId), {
+    onSuccess(_, variables, ___) {
+      notification['success']({
+        message: `successfully remove role`
+      });
+      const newData = data.filter(_item => _item?.id !== variables);
+      setData(newData);
+    },
+    onError(error, _, __) {
+      notification['error']({
+        message: 'Login Error',
+        description: `${error}`
+      });
+    },
+  });
 
   const handleTableChange = (
     pagination: TablePaginationConfig,
@@ -200,9 +216,21 @@ const RoleIndex: NextPageWithLayout = () => {
       width: '5%',
       render: (_, record, __) => {
         return (
-          <a href={`roles/${record.id}/edit`}>
-            <EditOutlined />
-          </a>
+          <>
+            <Button type="link" size='small' href={`roles/${record.id}/edit`}>
+              <EditOutlined />
+            </Button>
+            <Popconfirm
+              title={`Are you sure to delete ${record.name}?`}
+              placement="right"
+              onConfirm={() => destroyRoleMutation.mutate(record.id)}
+              // onCancel={cancel}
+              okText="Yes"
+              cancelText="No"
+            >
+              <DeleteOutlined style={{ color: 'red' }}/>
+            </Popconfirm>
+          </>
         );
       },
     },

@@ -25,3 +25,8 @@ export const updateRole = async (id: string, params: any) => {
   return response.data;
   
 }
+
+export const deleteRole = async (id: string) => {
+  const response = await axiosClient().delete(`/roles/${id}`);
+  return response.data;
+}
