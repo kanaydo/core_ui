@@ -1,7 +1,7 @@
-import { PlusOutlined, SearchOutlined, EditOutlined } from '@ant-design/icons';
+import { PlusOutlined, SearchOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { NextPageWithLayout } from '@coretypes/layout_types';
-import { useQuery } from '@tanstack/react-query';
-import { Button, DatePicker, Input, InputRef, Space, Tag } from 'antd';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { Button, DatePicker, Input, InputRef, notification, Popconfirm, Space, Tag, Tooltip } from 'antd';
 import { ColumnType } from 'antd/es/table';
 import Table, { ColumnsType, TablePaginationConfig } from 'antd/lib/table';
 import { FilterConfirmProps, FilterValue, SorterResult } from 'antd/lib/table/interface';
@@ -9,7 +9,7 @@ import qs from 'qs';
 import { ReactElement, useRef, useState } from 'react';
 import Highlighter from 'react-highlight-words';
 
-import { administratorIndex } from '@requests/administrator_api';
+import { administratorDestroy, administratorIndex } from '@requests/administrator_api';
 import CoreLayout from '@components/layouts/layout';
 import { AdministratorEntity } from '@coretypes/entities';
 import { TableParams } from '@coretypes/utils_interface';
@@ -23,7 +23,7 @@ const getAdministratorParams = (params: TableParams) => ({
 });
 
 const AdministratorIndex: NextPageWithLayout = () => {
-  const [data, setData] = useState();
+  const [data, setData] = useState<AdministratorEntity[]>([]);
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const searchInput = useRef<InputRef>(null);
@@ -55,6 +55,22 @@ const AdministratorIndex: NextPageWithLayout = () => {
       console.log(_err);
     },
   })
+
+  const M_destroyAdministrator = useMutation((roleId: any) => administratorDestroy(roleId), {
+    onSuccess(_, variables, ___) {
+      notification['success']({
+        message: `successfully remove administrator`
+      });
+      const newData = data.filter(_item => _item?.id !== variables);
+      setData(newData);
+    },
+    onError(error, _, __) {
+      notification['error']({
+        message: 'Failed to Remove',
+        description: `${error}`
+      });
+    },
+  });
 
   const handleTableChange = (
     pagination: TablePaginationConfig,
@@ -94,11 +110,11 @@ const AdministratorIndex: NextPageWithLayout = () => {
           size="small"
           // value={selectedKeys}
           style={{ marginBottom: 8 }}
-          onChange={ (_, s) => {
+          onChange={(_, s) => {
             setSelectedKeys(s ? s : []);
           }}
         />
-        <br/>
+        <br />
         <Space>
           <Button
             type="primary"
@@ -192,14 +208,14 @@ const AdministratorIndex: NextPageWithLayout = () => {
         return (
           <a href={`administrators/${record.id}`}>
             <strong>
-            <Highlighter
-              highlightStyle={{ padding: 0, color: '#014477' }}
-              searchWords={[searchText]}
-              autoEscape
-              textToHighlight={value ? value.toString() : ''}
-            />
+              <Highlighter
+                highlightStyle={{ padding: 0, color: '#014477' }}
+                searchWords={[searchText]}
+                autoEscape
+                textToHighlight={value ? value.toString() : ''}
+              />
             </strong>
-            
+
           </a>
 
         )
@@ -232,9 +248,25 @@ const AdministratorIndex: NextPageWithLayout = () => {
       width: '5%',
       render: (_, record, __) => {
         return (
-          <a href={`administrators/${record.id}/edit`}>
-            <EditOutlined />
-          </a>
+          <>
+            <Tooltip title="edit administrator">
+              <Button type="link" size='small' href={`administrators/${record.id}/edit`}>
+                <EditOutlined />
+              </Button>
+            </Tooltip>
+            <Tooltip title="remove administratos">
+              <Popconfirm
+                title={`Are you sure to delete ${record.username}?`}
+                placement="right"
+                onConfirm={() => M_destroyAdministrator.mutate(record.id)}
+                okText="Yes"
+                cancelText="No"
+              >
+                <DeleteOutlined style={{ color: 'red' }} />
+              </Popconfirm>
+            </Tooltip>
+          </>
+
         );
       },
     },

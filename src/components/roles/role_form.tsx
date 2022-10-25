@@ -2,8 +2,8 @@ import { RoleEntity } from "@coretypes/entities";
 import { createRole, prepareRole, updateRole } from "@requests/role_api";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Button, Form, Input, notification, Spin, Tree } from "antd";
-const { TextArea } = Input;
 import { useState } from "react";
+const { TextArea } = Input;
 
 interface RoleFormProps {
   role?: RoleEntity

@@ -1,13 +1,11 @@
 import CoreLayout from "@components/layouts/layout";
 import RoleForm from "@components/roles/role_form";
-import { RoleEntity } from "@coretypes/entities";
 import { NextPageWithLayout } from "@coretypes/layout_types";
-import { createRole, prepareRole, roleDetail, updateRole } from "@requests/role_api";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { Button, Form, Input, notification, Spin, Tree } from "antd";
-import TextArea from "antd/lib/input/TextArea";
+import { roleDetail } from "@requests/role_api";
+import { useQuery } from "@tanstack/react-query";
+import { Spin } from "antd";
 import { GetServerSideProps } from "next";
-import { ReactElement, useState } from "react";
+import { ReactElement } from "react";
 
 const RoleEditPage: NextPageWithLayout = (params : any) => {
   const q_detailRole = useQuery([`role_${params.id}_detail`], () => roleDetail(params.id));

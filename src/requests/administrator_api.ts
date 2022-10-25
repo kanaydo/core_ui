@@ -24,3 +24,8 @@ export const administratorUpdate = async (id: string, params: any) => {
   const response = await axiosClient().patch(`/administrators/${id}`, params);
   return response.data;
 }
+
+export const administratorDestroy = async (id: string) => {
+  const response = await axiosClient().delete(`/administrators/${id}`);
+  return response.data;
+}
