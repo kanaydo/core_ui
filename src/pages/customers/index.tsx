@@ -85,7 +85,7 @@ const CustomerIndex: NextPageWithLayout = () => {
         return (
           <>
             <Tooltip title="edit role">
-              <Button type="link" size='small' href={`roles/${record.id}/edit`}>
+              <Button type="link" size='small' href={`customers/${record.id}/edit`}>
                 <EditOutlined />
               </Button>
             </Tooltip>
@@ -155,7 +155,7 @@ const CustomerIndex: NextPageWithLayout = () => {
     <>
       <Space>
         <b>Customer List</b>
-        <Button icon={<PlusOutlined />} href='roles/new' shape='circle'/>
+        <Button icon={<PlusOutlined />} href='customers/new' shape='circle'/>
       </Space>
       <Table
         showSorterTooltip={false}
