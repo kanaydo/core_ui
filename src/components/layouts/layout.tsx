@@ -43,16 +43,12 @@ const items: MenuProps['items'] = [
         children: [
           {
             label: (
-              <Link href="/administrators">
-                {'Administrator'}
+              <Link href="/customers">
+                {'Customer'}
               </Link>
             ),
-            key: 'master_data:1',
-          },
-          {
-            label: 'Role',
-            key: 'master_data:2',
-          },
+            key: 'master_data:customer',
+          }
         ],
       },
       {
