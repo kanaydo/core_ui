@@ -47,7 +47,7 @@ const CustomerIndex: NextPageWithLayout = () => {
     },
   })
 
-  const destroyRoleMutation = useMutation((customerId: any) => customerDestroy(customerId), {
+  const destroyCustomerMutation = useMutation((customerId: any) => customerDestroy(customerId), {
     onSuccess(_, variables, ___) {
       notification['success']({
         message: `successfully remove role`
@@ -93,7 +93,7 @@ const CustomerIndex: NextPageWithLayout = () => {
               <Popconfirm
                 title={`Are you sure to delete ${record.firstName} ${record.lastName}?`}
                 placement="right"
-                onConfirm={() => destroyRoleMutation.mutate(record.id)}
+                onConfirm={() => destroyCustomerMutation.mutate(record.id)}
                 okText="Yes"
                 cancelText="No"
               >
