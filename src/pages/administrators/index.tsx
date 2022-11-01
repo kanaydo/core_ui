@@ -306,11 +306,10 @@ const AdministratorIndex: NextPageWithLayout = () => {
 
   return (
     <>
-      <Button icon={<PlusOutlined />} href='administrators/new'>
-        <small style={{ marginLeft: '8px' }}>
-          <strong>Create</strong>
-        </small>
-      </Button>
+      <Space>
+        <b>Administrator List</b>
+        <Button icon={<PlusOutlined />} href='administrators/new' shape='circle'/>
+      </Space>
       <Table
         showSorterTooltip={false}
         style={{ paddingTop: '16px' }}

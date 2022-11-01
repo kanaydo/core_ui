@@ -277,11 +277,10 @@ const RoleIndex: NextPageWithLayout = () => {
 
   return (
     <>
-      <Button icon={<PlusOutlined />} href='roles/new'>
-        <small style={{ marginLeft: '8px' }}>
-          <strong>Create</strong>
-        </small>
-      </Button>
+      <Space>
+        <b>Role List</b>
+        <Button icon={<PlusOutlined />} href='roles/new' shape='circle'/>
+      </Space>
       <Table
         showSorterTooltip={false}
         style={{ paddingTop: '16px' }}

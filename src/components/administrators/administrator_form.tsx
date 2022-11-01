@@ -19,7 +19,7 @@ export default function AdministratorForm({ administrator }: AdministratorFormPr
       notification['success']({
         message: `${data.name} successfully created`
       });
-      router.back();
+      router.replace('/administrators');
     },
     onError(error, _, __) {
       notification['error']({
@@ -32,9 +32,9 @@ export default function AdministratorForm({ administrator }: AdministratorFormPr
   const updateAdministratorMutation = useMutation(params => administratorUpdate(administrator!.id, params), {
     onSuccess(data, _, __) {
       notification['success']({
-        message: `${data.name} successfully updated`
+        message: `${administrator?.username ?? ''} successfully updated`
       });
-      router.back();
+      router.replace('/administrators');
     },
     onError(error, _, __) {
       notification['error']({
@@ -94,6 +94,7 @@ export default function AdministratorForm({ administrator }: AdministratorFormPr
         <Form.Item
           name="username"
           label="Username"
+          hasFeedback
           initialValue={`${administrator?.username ?? ''}`}
           rules={[{ required: true, message: 'please input username!' }]}
           >
@@ -102,20 +103,37 @@ export default function AdministratorForm({ administrator }: AdministratorFormPr
         <Form.Item
           name="password"
           label="Password"
-          rules={[{ required: administrator == undefined, message: 'password is required' }]}
+          hasFeedback
+          rules={[{ required: administrator == undefined, message: 'password is required minimum 6 character', min: 6 }]}
           >
-          <Input placeholder='set password, will used on login credential' />
+          <Input.Password placeholder='set password, will used on login credential' />
         </Form.Item>
         <Form.Item
           name="password_confirmation"
           label="Confirmation"
-          rules={[{ required: administrator == undefined, message: 'password confirmation is required' }]}
+          hasFeedback
+          dependencies={['password']}
+          rules={[
+            {
+              required: administrator === undefined,
+              message: 'Please confirm your password!',
+            },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if (!value || getFieldValue('password') === value) {
+                  return Promise.resolve();
+                }
+                return Promise.reject(new Error('The two passwords that you entered do not match!'));
+              },
+            }),
+          ]}
           >
-          <Input placeholder='password confirmation should same with password' />
+          <Input.Password placeholder='password confirmation should same with password' />
         </Form.Item>
         <Form.Item
           name="roleList"
           label="Role"
+          // rules={[{min: 1}]}
           initialValue={administrator?.roleList}>
           {rolePicker}
         </Form.Item>

@@ -2,6 +2,7 @@ import { RoleEntity } from "@coretypes/entities";
 import { createRole, prepareRole, updateRole } from "@requests/role_api";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Button, Form, Input, notification, Spin, Tree } from "antd";
+import { useRouter } from "next/router";
 import { useState } from "react";
 const { TextArea } = Input;
 
@@ -10,6 +11,7 @@ interface RoleFormProps {
 }
 
 export default function RoleForm({ role }: RoleFormProps) {
+  const router = useRouter();
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
   const [checkedKeys, setCheckedKeys] = useState<React.Key[]>(role?.sections ?? []);
   const [selectedKeys, setSelectedKeys] = useState<React.Key[]>([]);
@@ -25,7 +27,7 @@ export default function RoleForm({ role }: RoleFormProps) {
       notification['success']({
         message: `Role ${data.name} successfully created`
       });
-      // router.back();
+      router.replace('/roles');
     },
     onError(error, _, __) {
       notification['error']({
@@ -43,7 +45,9 @@ export default function RoleForm({ role }: RoleFormProps) {
       notification['success']({
         message: `Role ${data.name} successfully created`
       });
+      router.replace('/roles');
     },
+    
     onError(error, _, __) {
       notification['error']({
         message: 'Login Error',
