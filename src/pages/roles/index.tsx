@@ -5,7 +5,7 @@ import { NextPageWithLayout } from '@coretypes/layout_types';
 import { TableParams } from "@coretypes/utils_interface";
 import { deleteRole, pagingRoleIndex } from '@requests/role_api';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { Button, DatePicker, Input, notification, Popconfirm, Space, Tag, Tooltip } from "antd";
+import { Button, DatePicker, Input, message, notification, Popconfirm, Space, Tag, Tooltip } from "antd";
 import Table, { ColumnsType, TablePaginationConfig } from "antd/lib/table";
 import { ColumnType, FilterConfirmProps, FilterValue, SorterResult } from "antd/lib/table/interface";
 import qs from 'qs';
@@ -55,17 +55,12 @@ const RoleIndex: NextPageWithLayout = () => {
 
   const destroyRoleMutation = useMutation((roleId: any) => deleteRole(roleId), {
     onSuccess(_, variables, ___) {
-      notification['success']({
-        message: `successfully remove role`
-      });
+      message.success(`successfully remove role`);
       const newData = data.filter(_item => _item?.id !== variables);
       setData(newData);
     },
     onError(error, _, __) {
-      notification['error']({
-        message: 'Login Error',
-        description: `${error}`
-      });
+      message.error(`${error}`);
     },
   });
 

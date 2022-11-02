@@ -1,7 +1,7 @@
 import { PlusOutlined, SearchOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { NextPageWithLayout } from '@coretypes/layout_types';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { Button, DatePicker, Input, InputRef, notification, Popconfirm, Space, Tag, Tooltip } from 'antd';
+import { Button, DatePicker, Input, InputRef, message, notification, Popconfirm, Space, Tag, Tooltip } from 'antd';
 import { ColumnType } from 'antd/es/table';
 import Table, { ColumnsType, TablePaginationConfig } from 'antd/lib/table';
 import { FilterConfirmProps, FilterValue, SorterResult } from 'antd/lib/table/interface';
@@ -58,17 +58,12 @@ const AdministratorIndex: NextPageWithLayout = () => {
 
   const M_destroyAdministrator = useMutation((roleId: any) => administratorDestroy(roleId), {
     onSuccess(_, variables, ___) {
-      notification['success']({
-        message: `successfully remove administrator`
-      });
+      message.success(`successfully remove administrator`);
       const newData = data.filter(_item => _item?.id !== variables);
       setData(newData);
     },
     onError(error, _, __) {
-      notification['error']({
-        message: 'Failed to Remove',
-        description: `${error}`
-      });
+      message.error(`${error}`);
     },
   });
 

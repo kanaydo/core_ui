@@ -1,7 +1,7 @@
 import { RoleEntity } from "@coretypes/entities";
 import { createRole, prepareRole, updateRole } from "@requests/role_api";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { Button, Form, Input, notification, Spin, Tree } from "antd";
+import { Button, Form, Input, message, notification, Spin, Tree } from "antd";
 import { useRouter } from "next/router";
 import { useState } from "react";
 const { TextArea } = Input;
@@ -24,16 +24,11 @@ export default function RoleForm({ role }: RoleFormProps) {
     return createRole(createRoleParams);
   }, {
     onSuccess(data, _, __) {
-      notification['success']({
-        message: `Role ${data.name} successfully created`
-      });
+      message.success(`Role ${data.name} successfully created`);
       router.replace('/roles');
     },
     onError(error, _, __) {
-      notification['error']({
-        message: 'Login Error',
-        description: `${error}`
-      });
+      message.error(`${error}`);
     },
   });
 
@@ -42,17 +37,12 @@ export default function RoleForm({ role }: RoleFormProps) {
     return updateRole(role!.id, updateRoleParams);
   }, {
     onSuccess(data, _, __) {
-      notification['success']({
-        message: `Role ${data.name} successfully created`
-      });
+      message.success(`Role ${data.name} successfully updated`);
       router.replace('/roles');
     },
     
     onError(error, _, __) {
-      notification['error']({
-        message: 'Login Error',
-        description: `${error}`
-      });
+      message.error(`${error}`);
     },
   });
 

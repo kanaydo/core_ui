@@ -1,7 +1,7 @@
 import { AdministratorEntity } from "@coretypes/entities";
 import { administratorCreate, administratorNew, administratorUpdate } from "@requests/administrator_api";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { Button, Checkbox, Form, Input, notification, Spin } from "antd";
+import { Button, Checkbox, Form, Input, message, notification, Spin } from "antd";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import { useRouter } from "next/router";
 
@@ -16,31 +16,21 @@ export default function AdministratorForm({ administrator }: AdministratorFormPr
 
   const createAdministratorMutation = useMutation(params => administratorCreate(params), {
     onSuccess(data, _, __) {
-      notification['success']({
-        message: `${data.name} successfully created`
-      });
+      message.success(`${data.name} successfully created`);
       router.replace('/administrators');
     },
     onError(error, _, __) {
-      notification['error']({
-        message: 'Login Error',
-        description: `${error}`
-      });
+      message.error(`${error}`);
     },
   });
 
   const updateAdministratorMutation = useMutation(params => administratorUpdate(administrator!.id, params), {
-    onSuccess(data, _, __) {
-      notification['success']({
-        message: `${administrator?.username ?? ''} successfully updated`
-      });
+    onSuccess(_, __, ___) {
+      message.success(`${administrator?.username ?? ''} successfully updated`);
       router.replace('/administrators');
     },
     onError(error, _, __) {
-      notification['error']({
-        message: 'Login Error',
-        description: `${error}`
-      });
+      message.error(`${error}`);
     },
   });
 
