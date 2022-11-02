@@ -84,8 +84,8 @@ export default function CustomerForm({ customer }: CustomerFormProps) {
           name="email"
           label="Email"
           hasFeedback
-          initialValue={`${customer?.lastName ?? ''}`}
-          rules={[{ required: true, message: 'please input email!' }]}
+          initialValue={`${customer?.email ?? ''}`}
+          rules={[{ required: true, type: 'email', message: 'please input valid email!' }]}
           >
           <Input/>
         </Form.Item>

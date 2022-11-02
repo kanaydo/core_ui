@@ -50,7 +50,7 @@ const CustomerIndex: NextPageWithLayout = () => {
   const destroyCustomerMutation = useMutation((customerId: any) => customerDestroy(customerId), {
     onSuccess(_, variables, ___) {
       notification['success']({
-        message: `successfully remove role`
+        message: `successfully remove customer`
       });
       const newData = data.filter(_item => _item?.id !== variables);
       setData(newData);
@@ -84,7 +84,7 @@ const CustomerIndex: NextPageWithLayout = () => {
       render: (_, record, __) => {
         return (
           <>
-            <Tooltip title="edit role">
+            <Tooltip title="edit customer">
               <Button type="link" size='small' href={`customers/${record.id}/edit`}>
                 <EditOutlined />
               </Button>
