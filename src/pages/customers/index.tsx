@@ -5,7 +5,7 @@ import { NextPageWithLayout } from "@coretypes/layout_types";
 import { TableParams } from '@coretypes/utils_interface';
 import { customerDestroy, customerIndex } from '@requests/customer_api';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { Button, Input, notification, Popconfirm, Space, Table, TablePaginationConfig, Tag, Tooltip } from "antd";
+import { Button, Input, message, notification, Popconfirm, Space, Table, TablePaginationConfig, Tag, Tooltip } from "antd";
 import { ColumnsType } from 'antd/es/table';
 import { ColumnType, FilterConfirmProps, FilterValue, SorterResult } from 'antd/es/table/interface';
 import qs from 'qs';
@@ -53,17 +53,12 @@ const CustomerIndex: NextPageWithLayout = () => {
 
   const destroyCustomerMutation = useMutation((customerId: any) => customerDestroy(customerId), {
     onSuccess(_, variables, ___) {
-      notification['success']({
-        message: `successfully remove customer`
-      });
+      message.success(`successfully remove customer`);
       const newData = data.filter(_item => _item?.id !== variables);
       setData(newData);
     },
     onError(error, _, __) {
-      notification['error']({
-        message: 'Login Error',
-        description: `${error}`
-      });
+      message.error(`${error}`);
     },
   });
 

@@ -1,7 +1,7 @@
 import { CustomerEntity } from "@coretypes/entities";
 import { customerCreate, customerUpdate } from "@requests/customer_api";
 import { useMutation } from "@tanstack/react-query";
-import { Button, Form, Input, notification } from "antd";
+import { Button, Form, Input, message, notification } from "antd";
 import { useRouter } from "next/router";
 
 interface CustomerFormProps {
@@ -13,31 +13,21 @@ export default function CustomerForm({ customer }: CustomerFormProps) {
 
   const createCustomerMutation = useMutation(params => customerCreate(params), {
     onSuccess(data, _, __) {
-      notification['success']({
-        message: `${data.firstName} successfully created`
-      });
+      message.success(`${data.firstName} successfully created`);
       router.replace('/customers');
     },
     onError(error, _, __) {
-      notification['error']({
-        message: 'Create Error',
-        description: `${error}`
-      });
+      message.error(`${error}`);
     },
   });
 
   const updateCustomerMutation = useMutation(params => customerUpdate(customer!.id, params), {
     onSuccess(data, _, __) {
-      notification['success']({
-        message: `${customer?.firstName ?? ''} successfully updated`
-      });
+      message.success(`${customer?.firstName ?? ''} successfully updated`);
       router.replace('/customers');
     },
     onError(error, _, __) {
-      notification['error']({
-        message: 'Login Error',
-        description: `${error}`
-      });
+      message.error(`${error}`);
     },
   });
 
