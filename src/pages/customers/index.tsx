@@ -5,13 +5,15 @@ import { NextPageWithLayout } from "@coretypes/layout_types";
 import { TableParams } from '@coretypes/utils_interface';
 import { customerDestroy, customerIndex } from '@requests/customer_api';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { Button, notification, Popconfirm, Space, Table, TablePaginationConfig, Tag, Tooltip } from "antd";
+import { Button, Input, notification, Popconfirm, Space, Table, TablePaginationConfig, Tag, Tooltip } from "antd";
 import { ColumnsType } from 'antd/es/table';
-import { FilterValue, SorterResult } from 'antd/es/table/interface';
+import { ColumnType, FilterConfirmProps, FilterValue, SorterResult } from 'antd/es/table/interface';
 import qs from 'qs';
 import { ReactElement, useState } from "react";
+import Highlighter from 'react-highlight-words';
 
 const CustomerIndex: NextPageWithLayout = () => {
+  type DataIndex = keyof CustomerEntity;
   const getCustomerParams = (params: TableParams) => ({
     results: params.pagination?.pageSize,
     page: params.pagination?.current,
@@ -19,6 +21,8 @@ const CustomerIndex: NextPageWithLayout = () => {
   });
 
   const [data, setData] = useState<CustomerEntity[]>([]);
+  const [searchText, setSearchText] = useState('');
+  const [searchedColumn, setSearchedColumn] = useState('');
 
   const [tableParams, setTableParams] = useState<TableParams>({
     pagination: {
@@ -60,6 +64,78 @@ const CustomerIndex: NextPageWithLayout = () => {
         message: 'Login Error',
         description: `${error}`
       });
+    },
+  });
+
+  const handleSearch = (
+    selectedKeys: string[],
+    confirm: (param?: FilterConfirmProps) => void,
+    dataIndex: DataIndex,
+  ) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
+  };
+
+  const handleReset = (
+    clearFilters: () => void,
+    confirm: (param?: FilterConfirmProps) => void,
+  ) => {
+    clearFilters();
+    setSearchText('');
+    confirm();
+  };
+
+  const getColumnSearchProps = (dataIndex: DataIndex, navigate?: string): ColumnType<CustomerEntity> => ({
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+      <div style={{ padding: 16 }}>
+        <Input
+          placeholder={`Search`}
+          value={selectedKeys[0]}
+          size='small'
+          onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          style={{ marginBottom: 8, display: 'block' }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ width: 90 }}>
+            Search
+          </Button>
+          <Button
+            onClick={() => clearFilters && handleReset(clearFilters, confirm)}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Reset
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered: boolean) => (
+      <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
+    ),
+    render: (value, record, __) => {
+      if (searchedColumn === dataIndex) {
+        return (
+          <strong>
+            <Highlighter
+              highlightStyle={{ padding: 0, color: '#014477' }}
+              searchWords={[searchText]}
+              autoEscape
+              textToHighlight={value ? value.toString() : ''}
+            />
+          </strong>
+        )
+      }
+      return (
+        <div>
+          <strong>{value}</strong>
+        </div>
+      )
     },
   });
   
@@ -107,15 +183,17 @@ const CustomerIndex: NextPageWithLayout = () => {
     {
       title: 'Name',
       dataIndex: 'firstName',
-      render: (_, record, __) => {
-        return (
-          <b>{`${record.firstName} ${record.lastName}`}</b>
-        );
-      },
+      ...getColumnSearchProps('firstName')
+      // render: (_, record, __) => {
+      //   return (
+      //     <b>{`${record.firstName} ${record.lastName}`}</b>
+      //   );
+      // },
     },
     {
       title: 'Email',
       dataIndex: 'email',
+      ...getColumnSearchProps('email')
     },
     {
       title: 'Status',
