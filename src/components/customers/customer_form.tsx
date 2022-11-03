@@ -79,6 +79,24 @@ export default function CustomerForm({ customer }: CustomerFormProps) {
           >
           <Input/>
         </Form.Item>
+        <Form.Item
+          name="phone"
+          label="Phone"
+          hasFeedback
+          initialValue={`${customer?.phone ?? ''}`}
+          rules={[{ required: true, message: 'please input valid phone!' }]}
+          >
+          <Input/>
+        </Form.Item>
+        <Form.Item
+          name="address"
+          label="Address"
+          hasFeedback
+          initialValue={`${customer?.address ?? ''}`}
+          rules={[{ required: true, message: 'please input address!' }]}
+          >
+          <Input.TextArea rows={3} placeholder="explain role description here"/>
+        </Form.Item>
         <Form.Item label=" " style={{ marginTop: '16px' }}>
           <Button type="primary" htmlType="submit" loading={createCustomerMutation.isLoading || updateCustomerMutation.isLoading}>
             {customer == undefined ? 'Create Customer' : 'Update Customer'}

@@ -5,9 +5,10 @@ import { NextPageWithLayout } from "@coretypes/layout_types";
 import { TableParams } from '@coretypes/utils_interface';
 import { customerDestroy, customerIndex } from '@requests/customer_api';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { Button, Input, message, notification, Popconfirm, Space, Table, TablePaginationConfig, Tag, Tooltip } from "antd";
+import { Button, Input, message, Popconfirm, Space, Table, TablePaginationConfig, Tag, Tooltip } from "antd";
 import { ColumnsType } from 'antd/es/table';
 import { ColumnType, FilterConfirmProps, FilterValue, SorterResult } from 'antd/es/table/interface';
+import Link from 'next/link';
 import qs from 'qs';
 import { ReactElement, useState } from "react";
 import Highlighter from 'react-highlight-words';
@@ -81,7 +82,11 @@ const CustomerIndex: NextPageWithLayout = () => {
     confirm();
   };
 
-  const getColumnSearchProps = (dataIndex: DataIndex, navigate?: string): ColumnType<CustomerEntity> => ({
+  const getColumnSearchProps = (
+    dataIndex: DataIndex,
+    isBold: boolean = false,
+    navigate: boolean = false,
+  ): ColumnType<CustomerEntity> => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
       <div style={{ padding: 16 }}>
         <Input
@@ -115,25 +120,36 @@ const CustomerIndex: NextPageWithLayout = () => {
     ),
     render: (value, record, __) => {
       if (searchedColumn === dataIndex) {
+        let hiLight = <Highlighter
+          highlightStyle={{ padding: 0, color: '#014477' }}
+          searchWords={[searchText]}
+          autoEscape
+          textToHighlight={value ? value.toString() : ''}
+        />;
+        if (navigate) {
+          hiLight = <Link href={`customers/${record.id}`}>{hiLight}</Link>
+        }
+
         return (
-          <strong>
-            <Highlighter
-              highlightStyle={{ padding: 0, color: '#014477' }}
-              searchWords={[searchText]}
-              autoEscape
-              textToHighlight={value ? value.toString() : ''}
-            />
-          </strong>
+          <div>
+            {isBold ? <strong>{hiLight}</strong> : hiLight}
+          </div>
         )
       }
+
+      let content = <div>{value}</div>;
+      if (navigate) {
+        content = <Link href={`customers/${record.id}`}>{content}</Link> 
+      }
       return (
+        
         <div>
-          <strong>{value}</strong>
+          {isBold ? <strong>{content}</strong> : <div>{content}</div>}
         </div>
       )
     },
   });
-  
+
   const columns: ColumnsType<CustomerEntity> = [
     {
       title: '#',
@@ -178,17 +194,22 @@ const CustomerIndex: NextPageWithLayout = () => {
     {
       title: 'Name',
       dataIndex: 'firstName',
-      ...getColumnSearchProps('firstName')
-      // render: (_, record, __) => {
-      //   return (
-      //     <b>{`${record.firstName} ${record.lastName}`}</b>
-      //   );
-      // },
+      ...getColumnSearchProps('firstName', true, true)
     },
     {
       title: 'Email',
       dataIndex: 'email',
       ...getColumnSearchProps('email')
+    },
+    {
+      title: 'Phone',
+      dataIndex: 'phone',
+      ...getColumnSearchProps('phone')
+    },
+    {
+      title: 'Address',
+      dataIndex: 'address',
+      ...getColumnSearchProps('address')
     },
     {
       title: 'Status',
@@ -228,7 +249,7 @@ const CustomerIndex: NextPageWithLayout = () => {
     <>
       <Space>
         <b>Customer List</b>
-        <Button icon={<PlusOutlined />} href='customers/new' shape='circle'/>
+        <Button icon={<PlusOutlined />} href='customers/new' shape='circle' />
       </Space>
       <Table
         showSorterTooltip={false}

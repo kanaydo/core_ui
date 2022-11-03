@@ -17,14 +17,13 @@ const axiosClient = () => {
     return request;
   });
 
-  instance.interceptors.response.use(
-    (response) => {
-      return response
-    },
-    (error) => {
-      console.log(`error`, error)
-    }
-  );
+  instance.interceptors.response.use((response) => {
+    return response
+  }, (error) => {
+    let errorMessage = error?.response?.data?.message ?? 'something wrong, please try again!';
+    throw new Error(errorMessage);
+  });
+  
   return instance;
 }
 

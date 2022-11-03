@@ -20,5 +20,7 @@ export interface CustomerEntity {
 	updatedAt?: string;
 	firstName: string;
 	lastName: string;
-	email: string
+	email: string;
+  phone?: string;
+  address?: string;
 }
