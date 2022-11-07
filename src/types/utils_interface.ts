@@ -7,3 +7,8 @@ export interface TableParams {
   sortOrder?: string;
   filters?: Record<string, FilterValue | null>;
 }
+
+export interface PagingData {
+  items: any,
+  meta: any
+}

@@ -1,8 +1,8 @@
 import { DeleteOutlined, EditOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import CoreLayout from "@components/layouts/layout";
-import { CustomerEntity } from '@coretypes/entities';
+import { CustomerEntity } from '@coretypes/entities/customer_entity';
 import { NextPageWithLayout } from "@coretypes/layout_types";
-import { TableParams } from '@coretypes/utils_interface';
+import { PagingData, TableParams } from '@coretypes/utils_interface';
 import { customerDestroy, customerIndex } from '@requests/customer_api';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { Button, Input, message, Popconfirm, Space, Table, TablePaginationConfig, Tag, Tooltip } from "antd";
@@ -37,7 +37,7 @@ const CustomerIndex: NextPageWithLayout = () => {
   const {
     isLoading
   } = useQuery(['paging_administrators', tableParams], () => customerIndex(qs.stringify(getCustomerParams(tableParams))), {
-    onSuccess: (_data) => {
+    onSuccess: (_data: PagingData) => {
       setData(_data.items);
       setTableParams({
         ...tableParams,
@@ -82,11 +82,7 @@ const CustomerIndex: NextPageWithLayout = () => {
     confirm();
   };
 
-  const getColumnSearchProps = (
-    dataIndex: DataIndex,
-    isBold: boolean = false,
-    navigate: boolean = false,
-  ): ColumnType<CustomerEntity> => ({
+  const getColumnSearchProps = (dataIndex: DataIndex, isBold: boolean = false, navigate: boolean = false): ColumnType<CustomerEntity> => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
       <div style={{ padding: 16 }}>
         <Input
@@ -150,6 +146,43 @@ const CustomerIndex: NextPageWithLayout = () => {
     },
   });
 
+  const getColumnAssociationFilterProps = (dataIndex: DataIndex, isBold: boolean = false, navigate: boolean = false): ColumnType<CustomerEntity> => ({
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+      <div style={{ padding: 16 }}>
+        <Input
+          placeholder={`Search`}
+          value={selectedKeys[0]}
+          size='small'
+          onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          style={{ marginBottom: 8, display: 'block' }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ width: 90 }}>
+            Search
+          </Button>
+          <Button
+            onClick={() => clearFilters && handleReset(clearFilters, confirm)}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Reset
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered: boolean) => (
+      <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
+    ),
+    render: (value, record, __) => {
+      return <>{value.toString()}</>
+    }
+  });
+
   const columns: ColumnsType<CustomerEntity> = [
     {
       title: '#',
@@ -205,6 +238,14 @@ const CustomerIndex: NextPageWithLayout = () => {
       title: 'Phone',
       dataIndex: 'phone',
       ...getColumnSearchProps('phone')
+    },
+    {
+      title: 'Created By',
+      dataIndex: 'administrator',
+      render(value, record, index) {
+        return <>{record.administrator?.username}</>
+      },
+      ...getColumnAssociationFilterProps('administrator')
     },
     {
       title: 'Address',

@@ -4,6 +4,7 @@ import 'antd/dist/antd.css';
 import { SessionProvider } from 'next-auth/react';
 import React from 'react';
 import '../../styles/globals.css';
+import "reflect-metadata"
 
 function MyApp({ 
   Component, 

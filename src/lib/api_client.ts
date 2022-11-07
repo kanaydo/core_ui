@@ -23,7 +23,7 @@ const axiosClient = () => {
     let errorMessage = error?.response?.data?.message ?? 'something wrong, please try again!';
     throw new Error(errorMessage);
   });
-  
+
   return instance;
 }
 
