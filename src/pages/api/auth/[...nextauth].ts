@@ -13,15 +13,17 @@ export default NextAuth({
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials, _) {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_CORE_API_PATH}/auth`, credentials);
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_CORE_API_PATH}/v1/administrators/sign_in`, credentials);
         
-        const { administrator, access_token } = response.data;
-        if (administrator != null) {
+        const administrator = response.data.administrator;
+        const accessToken = response.headers['access-token'];
+        
+        if (administrator != null && accessToken != null) {
           return { 
             id: administrator.id, 
             name: administrator.username, 
             email: administrator.username, 
-            accessToken: access_token 
+            accessToken: accessToken
           };
         }
         return null

@@ -1,6 +1,6 @@
 import axiosClient from "@corelibs/api_client";
 import { CustomerEntity } from "@coretypes/entities/customer_entity";
-import { plainToClass, plainToInstance } from "class-transformer";
+import { plainToInstance } from "class-transformer";
 
 export const customerIndex = async (params: any) => { 
   const response = await axiosClient().get(`/customers?${params}`);

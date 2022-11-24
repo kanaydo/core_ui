@@ -17,8 +17,7 @@ const CustomerIndex: NextPageWithLayout = () => {
   type DataIndex = keyof CustomerEntity;
   const getCustomerParams = (params: TableParams) => ({
     results: params.pagination?.pageSize,
-    page: params.pagination?.current,
-    ...params,
+    page: params.pagination?.current
   });
 
   const [data, setData] = useState<CustomerEntity[]>([]);
