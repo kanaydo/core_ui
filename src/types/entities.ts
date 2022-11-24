@@ -10,6 +10,6 @@ export interface RoleEntity {
 	name: string;
 	createdAt: string
 	status: string
-  sections?: string[],
+  sectionList?: string[],
   description?: string
 }

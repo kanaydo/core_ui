@@ -1,14 +1,14 @@
-import { CustomerEntity } from "@coretypes/entities";
+// import { CustomerEntity } from "@coretypes/entities";
 import { customerCreate, customerUpdate } from "@requests/customer_api";
 import { useMutation } from "@tanstack/react-query";
 import { Button, Form, Input, message, notification } from "antd";
 import { useRouter } from "next/router";
 
-interface CustomerFormProps {
-  customer?: CustomerEntity
-}
+// interface CustomerFormProps {
+//   customer?: CustomerEntity
+// }
 
-export default function CustomerForm({ customer }: CustomerFormProps) { 
+export default function CustomerForm() { 
   const router = useRouter();
 
   const createCustomerMutation = useMutation(params => customerCreate(params), {
@@ -21,28 +21,28 @@ export default function CustomerForm({ customer }: CustomerFormProps) {
     },
   });
 
-  const updateCustomerMutation = useMutation(params => customerUpdate(customer!.id, params), {
-    onSuccess(data, _, __) {
-      message.success(`${customer?.firstName ?? ''} successfully updated`);
-      router.replace('/customers');
-    },
-    onError(error, _, __) {
-      message.error(`${error}`);
-    },
-  });
+  // const updateCustomerMutation = useMutation(params => customerUpdate(customer!.id, params), {
+  //   onSuccess(data, _, __) {
+  //     message.success(`${customer?.firstName ?? ''} successfully updated`);
+  //     router.replace('/customers');
+  //   },
+  //   onError(error, _, __) {
+  //     message.error(`${error}`);
+  //   },
+  // });
 
-  const submitForm = (params: any) => {
-    if (customer === undefined) {
-      createCustomerMutation.mutate(params);
-    } else {
-      updateCustomerMutation.mutate(params);
-    }
-    console.log(params);
-  }
+  // const submitForm = (params: any) => {
+  //   if (customer === undefined) {
+  //     createCustomerMutation.mutate(params);
+  //   } else {
+  //     updateCustomerMutation.mutate(params);
+  //   }
+  //   console.log(params);
+  // }
   
   return (
     <>
-      {customer === undefined ? <b>New Customer</b> : <b>Edit Customer</b>}
+      {/* {customer === undefined ? <b>New Customer</b> : <b>Edit Customer</b>}
       <Form
         disabled={createCustomerMutation.isLoading || updateCustomerMutation.isLoading}
         style={{ marginTop: '32px' }}
@@ -102,7 +102,7 @@ export default function CustomerForm({ customer }: CustomerFormProps) {
             {customer == undefined ? 'Create Customer' : 'Update Customer'}
           </Button>
         </Form.Item>
-      </Form>
+      </Form> */}
     </>
   )
 }

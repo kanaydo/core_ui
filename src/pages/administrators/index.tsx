@@ -47,7 +47,7 @@ const AdministratorIndex: NextPageWithLayout = () => {
         ...tableParams,
         pagination: {
           ...tableParams.pagination,
-          total: _data.meta.totalItems
+          total: _data.meta.totalCount
         }
       });
     },
@@ -266,7 +266,7 @@ const AdministratorIndex: NextPageWithLayout = () => {
       },
     },
     {
-      title: 'UserName',
+      title: 'Username',
       dataIndex: 'username',
       sorter: true,
       ...getColumnSearchProps('username'),
@@ -289,11 +289,11 @@ const AdministratorIndex: NextPageWithLayout = () => {
       filters: [
         {
           text: 'Active',
-          value: 'active',
+          value: 1,
         },
         {
           text: 'Inactive',
-          value: 'inactive',
+          value: 0,
         },
       ],
     }

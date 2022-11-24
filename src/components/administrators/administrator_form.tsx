@@ -16,7 +16,7 @@ export default function AdministratorForm({ administrator }: AdministratorFormPr
 
   const createAdministratorMutation = useMutation(params => administratorCreate(params), {
     onSuccess(data, _, __) {
-      message.success(`${data.name} successfully created`);
+      message.success(`successfully created`);
       router.replace('/administrators');
     },
     onError(error, _, __) {
@@ -49,7 +49,7 @@ export default function AdministratorForm({ administrator }: AdministratorFormPr
 
 
   if (newAdministrator.data) {
-    const options = newAdministrator.data.map(mapToCheckBoxKey);
+    const options = newAdministrator.data.roles.map(mapToCheckBoxKey);
     rolePicker = (
       <Checkbox.Group
         options={options}
@@ -121,7 +121,7 @@ export default function AdministratorForm({ administrator }: AdministratorFormPr
           <Input.Password placeholder='password confirmation should same with password' />
         </Form.Item>
         <Form.Item
-          name="roleList"
+          name="role_list"
           label="Role"
           // rules={[{min: 1}]}
           initialValue={administrator?.roleList}>

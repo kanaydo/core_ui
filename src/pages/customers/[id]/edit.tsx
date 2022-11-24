@@ -28,8 +28,9 @@ const CustomerEdit: NextPageWithLayout = (params: any) => {
   }
 
   return (
-    <CustomerForm customer={customerData.data}/>
-  )
+    // <CustomerForm customer={customerData.data}/>
+    <div/>
+  );
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {

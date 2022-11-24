@@ -30,7 +30,7 @@ const RoleEditPage: NextPageWithLayout = (params : any) => {
   return (
     <>
     <b>Update Role</b>
-    <RoleForm role={q_detailRole.data}/>
+    <RoleForm role={q_detailRole.data.role}/>
     </>
   )
 }

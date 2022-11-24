@@ -13,14 +13,14 @@ interface RoleFormProps {
 export default function RoleForm({ role }: RoleFormProps) {
   const router = useRouter();
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
-  const [checkedKeys, setCheckedKeys] = useState<React.Key[]>(role?.sections ?? []);
+  const [checkedKeys, setCheckedKeys] = useState<React.Key[]>(role?.sectionList ?? []);
   const [selectedKeys, setSelectedKeys] = useState<React.Key[]>([]);
   const [autoExpandParent, setAutoExpandParent] = useState<boolean>(true);
 
   const prepareRoles = useQuery(['todos'], prepareRole);
 
   const createRoleMutation = useMutation((params: any) => {
-    const createRoleParams = {...params, ...{ sections: checkedKeys } };
+    const createRoleParams = { ...params, ...{ sections: checkedKeys } };
     return createRole(createRoleParams);
   }, {
     onSuccess(data, _, __) {
@@ -33,14 +33,14 @@ export default function RoleForm({ role }: RoleFormProps) {
   });
 
   const updateRoleMutation = useMutation((update: any) => {
-    const updateRoleParams = {...update, ...{ sections: checkedKeys } };
+    const updateRoleParams = { ...update, ...{ section_list: checkedKeys } };
     return updateRole(role!.id, updateRoleParams);
   }, {
     onSuccess(data, _, __) {
       message.success(`Role ${data.name} successfully updated`);
       router.replace('/roles');
     },
-    
+
     onError(error, _, __) {
       message.error(`${error}`);
     },
@@ -73,7 +73,7 @@ export default function RoleForm({ role }: RoleFormProps) {
 
   return (
     <>
-    <Form
+      <Form
         disabled={createRoleMutation.isLoading || updateRoleMutation.isLoading}
         name="role_form"
         initialValues={{ remember: true }}
@@ -95,28 +95,30 @@ export default function RoleForm({ role }: RoleFormProps) {
           label="Description (optional)"
           initialValue={`${role?.description ?? ''}`}
           rules={[{ required: false }]}>
-          <TextArea rows={3} placeholder="explain role description here"/>
+          <TextArea rows={3} placeholder="explain role description here" />
         </Form.Item>
-        <Form.Item label="Permission Rule">
-        {(prepareRoles.isLoading && prepareRoles.data) ? <Spin size="large" /> : <Tree
-          checkable
-          onExpand={onExpand}
-          expandedKeys={expandedKeys}
-          autoExpandParent={autoExpandParent}
-          onCheck={(val) => {
-            const checked = val as React.Key[];
-            onCheck(checked);
-            console.log(val);
-          }}
-          checkedKeys={checkedKeys}
-          onSelect={onSelect}
-          selectedKeys={selectedKeys}
-          treeData={prepareRoles.data}
-        />}
+        <Form.Item
+          name="section_list"
+          label="Permission Rule">
+          {(prepareRoles.data) ? <Tree
+            checkable
+            onExpand={onExpand}
+            expandedKeys={expandedKeys}
+            autoExpandParent={autoExpandParent}
+            onCheck={(val) => {
+              const checked = val as React.Key[];
+              onCheck(checked);
+              console.log(val);
+            }}
+            checkedKeys={checkedKeys}
+            onSelect={onSelect}
+            selectedKeys={selectedKeys}
+            treeData={prepareRoles.data?.sections}
+          /> : <Spin size="large" />}
         </Form.Item>
         <Form.Item style={{ marginTop: '16px' }} label=" ">
           <Button type="primary" htmlType="submit" loading={createRoleMutation.isLoading || updateRoleMutation.isLoading}>
-            { role === undefined ? 'Create Role' : 'Update Role' }
+            {role === undefined ? 'Create Role' : 'Update Role'}
           </Button>
         </Form.Item>
       </Form>

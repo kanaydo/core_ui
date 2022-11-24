@@ -11,12 +11,13 @@ export const administratorShow = async (id: string) => {
 }
 
 export const administratorNew = async () => {
-  const response = await axiosClient().get(`/administrators/new`);
+  const response = await axiosClient().get(`/administrators/prepare`);
   return response.data;
 }
 
 export const administratorCreate =async (params: any) => {
-  const response = await axiosClient().post(`/administrators`, params);
+  const adminParams = {administrator: params};
+  const response = await axiosClient().post(`/administrators`, adminParams);
   return response.data;
 }
 

@@ -6,7 +6,7 @@ export const pagingRoleIndex = async(params: any) => {
 }
 
 export const prepareRole = async() => {
-  const response = await axiosClient().get('/roles/new');
+  const response = await axiosClient().get('/roles/prepare');
   return response.data;
 }
 

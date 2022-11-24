@@ -260,11 +260,11 @@ const RoleIndex: NextPageWithLayout = () => {
       filters: [
         {
           text: 'Active',
-          value: 'active',
+          value: 1,
         },
         {
           text: 'Inactive',
-          value: 'inactive',
+          value: 0,
         },
       ],
     }
